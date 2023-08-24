@@ -1,0 +1,29 @@
+
+import csv
+import os
+
+
+class CsvAccesser():
+    base_dir = ''
+    ext_style_path = '/scripts/csv/ext_style.csv'
+    fieldnames = ['name', 'sd_model_checkpoint', 'sd_vae',
+                  'prompt', 'negative_prompt', 'width', 'height']
+
+    def __init__(self, base_dir) -> None:
+        self.base_dir = base_dir.replace(os.path.sep, '/')
+
+    def get_csv_path(self):
+        p = os.path.join(self.base_dir, self.ext_style_path)
+        p = self.base_dir + self.ext_style_path
+        return p
+
+    def read_csv_without_header(self):
+        path = self.get_csv_path()
+        with open(path, 'r', encoding='utf-8') as file:
+            reader = csv.DictReader(file)
+            return [row for row in reader]
+
+    def append_to_csv(self, row):
+        with open(self.get_csv_path(), 'a', newline='', encoding='utf-8') as file:
+            writer = csv.DictWriter(file, fieldnames=self.fieldnames)
+            writer.writerow(row)
