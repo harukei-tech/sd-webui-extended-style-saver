@@ -1,19 +1,19 @@
-
 import csv
 import os
 
 
 class CsvAccesser():
     base_dir = ''
-    ext_style_path = '/scripts/csv/ext_style.csv'
-    fieldnames = ['name', 'sd_model_checkpoint', 'sd_vae',
-                  'prompt', 'negative_prompt', 'width', 'height']
+    csv_dir = '/scripts/csv'
+    ext_style_path = '/path/to/example.csv'
+    fieldnames = []  # list of csv header
 
-    def __init__(self, base_dir) -> None:
+    def __init__(self, base_dir, fileName, fieldnames) -> None:
         self.base_dir = base_dir.replace(os.path.sep, '/')
+        self.ext_style_path = self.csv_dir + '/' + fileName
+        self.fieldnames = fieldnames
 
     def get_csv_path(self):
-        p = os.path.join(self.base_dir, self.ext_style_path)
         p = self.base_dir + self.ext_style_path
         return p
 
