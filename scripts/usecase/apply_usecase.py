@@ -1,4 +1,5 @@
 from ..service.extended_style_service import ExtStyleService
+from ..service.controlnet_service import ControlnetService
 import gradio as gr
 import modules.shared as shared
 from modules import sd_models, sd_vae
@@ -7,6 +8,7 @@ from modules import sd_models, sd_vae
 class ApplyUsecase():
     def __init__(self, basedir) -> None:
         self.ext_style_service = ExtStyleService(basedir)
+        self.controlnet_service = ControlnetService(basedir)
 
     def apply_ext_style(self, style_name):
         style = self.ext_style_service.get_content(style_name)
@@ -26,6 +28,8 @@ class ApplyUsecase():
             shared.opts.set("sd_vae", style['sd_vae'])
             sd_vae.reload_vae_weights()
 
+        controlnet = self.controlnet_service.get_content_by_extended_style_id(
+            style['id'])
 
         return [
             style['prompt'],
@@ -38,5 +42,11 @@ class ApplyUsecase():
             ),
             gr.Checkbox.update(
                 value=True if controlnet is not None else False
+            ),
+            gr.Dropdown.update(
+                value=controlnet['model'] if controlnet is not None else None
+            ),
+            gr.Image.update(
+                value=controlnet['image'] if controlnet is not None else None
             ),
         ]

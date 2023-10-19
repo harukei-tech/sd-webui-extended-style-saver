@@ -3,6 +3,8 @@ import gradio as gr
 import modules.scripts as scripts
 from scripts.service.extended_style_service import \
     ExtStyleService
+from scripts.service.controlnet_service import \
+    ControlnetService
 from scripts.usecase.save_usecase import SaveUsecase
 from scripts.usecase.apply_usecase import ApplyUsecase
 from modules.ui import refresh_symbol, apply_style_symbol, save_style_symbol
@@ -12,6 +14,7 @@ basedir = scripts.basedir()
 save_usecase = SaveUsecase(basedir)
 apply_usecase = ApplyUsecase(basedir)
 ext_style_service = ExtStyleService(basedir)
+controlnet_service = ControlnetService(basedir)
 
 filter_symbol = '\U0001f3af'  # dart
 
@@ -22,9 +25,16 @@ class ExtendedStyles(scripts.Script):
     txt2img_height_component = None
     pos_prompt_component = None
     neg_prompt_component = None
+    controlnet_enable_component = None
+    controlnet_input_image_components = None
+    controlnet_generated_image_components = None
+    controlnet_model_dropdown_component = None
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
+        self.dummy_component = gr.Label(visible=False)
+        self.controlnet_input_image_components = self.dummy_component
+        self.controlnet_generated_image_components = self.dummy_component
 
     # this function will be called automaticaly
     def after_component(self, component, **kwargs):
@@ -38,6 +48,14 @@ class ExtendedStyles(scripts.Script):
             self.txt2img_width_component = component
         elif kwargs.get("elem_id") == "txt2img_height":
             self.txt2img_height_component = component
+        elif kwargs.get("elem_id") == "txt2img_controlnet_ControlNet_controlnet_enable_checkbox":
+            self.controlnet_enable_component = component
+        elif kwargs.get("elem_id") in ["txt2img_controlnet_ControlNet_input_image", "txt2img_controlnet_ControlNet-0_input_image"]:
+            self.controlnet_input_image_components = component
+        elif kwargs.get("elem_id") in ["txt2img_controlnet_ControlNet_generated_image", "txt2img_controlnet_ControlNet-0_generated_image"]:
+            self.controlnet_generated_image_components = component
+        elif kwargs.get("elem_id") == "txt2img_controlnet_ControlNet_controlnet_model_dropdown":
+            self.controlnet_model_dropdown_component = component
 
     # Extension title in menu UI
     def title(self):
@@ -92,6 +110,9 @@ class ExtendedStyles(scripts.Script):
                              self.neg_prompt_component,
                              self.txt2img_width_component,
                              self.txt2img_height_component,
+                             self.controlnet_enable_component,
+                             self.controlnet_model_dropdown_component,
+                             self.controlnet_input_image_components,
                              ]
                 )
                 refresh_button = ToolButton(
@@ -117,6 +138,8 @@ class ExtendedStyles(scripts.Script):
                         # the same number of parameters, but we only know the style-name after the JavaScript prompt
                         inputs=[self.dummy_component, self.pos_prompt_component, self.neg_prompt_component,
                                 self.txt2img_width_component, self.txt2img_height_component,
+                                self.controlnet_enable_component, self.controlnet_model_dropdown_component,
+                                self.controlnet_input_image_components, self.controlnet_generated_image_components
                                 ],
                         outputs=ext_style_dropdown,
                     )
