@@ -1,5 +1,8 @@
 function ask_for_extended_style_name(_, prompt_text, negative_prompt_text, width, height, txt2img_width_component, txt2img_height_component, controlnet_enebled, controlnet_model, controlnet_input_image, controlnet_generated_image) {
     const name_ = prompt('Style name:');
+    if (name_ === null) {
+        throw '';
+    }
     return [name_, prompt_text, negative_prompt_text, width, height, txt2img_width_component, txt2img_height_component, controlnet_enebled, controlnet_model, controlnet_input_image, controlnet_generated_image]
 }
 
