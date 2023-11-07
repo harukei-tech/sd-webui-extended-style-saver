@@ -30,11 +30,18 @@ class ExtendedStyles(scripts.Script):
     controlnet_generated_image_components = None
     controlnet_model_dropdown_component = None
 
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
+    def init_component_for_rendering(self):
         self.dummy_component = gr.Label(visible=False)
-        self.controlnet_input_image_components = self.dummy_component
-        self.controlnet_generated_image_components = self.dummy_component
+        def set_dummy_if_none(
+            component): return component if component is not None else self.dummy_component
+        self.controlnet_enable_component = set_dummy_if_none(
+            self.controlnet_enable_component)
+        self.controlnet_input_image_components = set_dummy_if_none(
+            self.controlnet_input_image_components)
+        self.controlnet_generated_image_components = set_dummy_if_none(
+            self.controlnet_generated_image_components)
+        self.controlnet_model_dropdown_component = set_dummy_if_none(
+            self.controlnet_model_dropdown_component)
 
     # this function will be called automaticaly
     def after_component(self, component, **kwargs):
@@ -70,7 +77,7 @@ class ExtendedStyles(scripts.Script):
         return scripts.AlwaysVisible
 
     def ui(self, is_img2img):
-        self.dummy_component = gr.Label(visible=False, value="sample")
+        self.init_component_for_rendering()
         if self.pos_prompt_component is not None:
             self.ui_txt2img()
 
