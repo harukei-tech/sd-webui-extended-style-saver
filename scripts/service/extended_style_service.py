@@ -46,8 +46,7 @@ class ExtStyleService():
             choices=choices,
             value=choices[-1]), style.get('id'))
 
-    def apply_ext_style(self, style_name):
-        style = self.ext_style_repository.get_content(style_name)
+    def apply_ext_style(self, style):
 
         if (shared.opts.data['sd_model_checkpoint'] != style['sd_model_checkpoint']):
             if style['sd_model_checkpoint'] is not None and style['sd_model_checkpoint'] not in sd_models.checkpoints_list:
@@ -59,21 +58,9 @@ class ExtStyleService():
             sd_models.reload_model_weights()
 
         if (shared.opts.data['sd_vae'] != style['sd_vae']):
-            pass
             shared.opts.data['sd_vae'] = style['sd_vae']
             shared.opts.set("sd_vae", style['sd_vae'])
             sd_vae.reload_vae_weights()
-
-        return [
-            style['prompt'],
-            style['negative_prompt'],
-            gr.Slider.update(
-                value=int(style['width'])
-            ),
-            gr.Slider.update(
-                value=int(style['height'])
-            ),
-        ]
 
     def get_choices(self, styles=None):
         return self.ext_style_repository.get_choices(styles)

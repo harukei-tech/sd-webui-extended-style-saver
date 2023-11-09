@@ -1,8 +1,6 @@
 from ..service.extended_style_service import ExtStyleService
 from ..service.controlnet_service import ControlnetService
 import gradio as gr
-import modules.shared as shared
-from modules import sd_models, sd_vae
 
 
 class ApplyUsecase():
@@ -13,20 +11,7 @@ class ApplyUsecase():
     def apply_ext_style(self, style_name):
         style = self.ext_style_service.get_content(style_name)
 
-        if (shared.opts.data['sd_model_checkpoint'] != style['sd_model_checkpoint']):
-            if style['sd_model_checkpoint'] is not None and style['sd_model_checkpoint'] not in sd_models.checkpoints_list:
-                raise RuntimeError(
-                    f"model {style['sd_model_checkpoint']!r} not found")
-            shared.opts.data['sd_model_checkpoint'] = style['sd_model_checkpoint']
-            shared.opts.set("sd_model_checkpoint",
-                            style['sd_model_checkpoint'])
-            sd_models.reload_model_weights()
-
-        if (shared.opts.data['sd_vae'] != style['sd_vae']):
-            pass
-            shared.opts.data['sd_vae'] = style['sd_vae']
-            shared.opts.set("sd_vae", style['sd_vae'])
-            sd_vae.reload_vae_weights()
+        self.ext_style_service.apply_ext_style(style)
 
         controlnet = self.controlnet_service.get_content_by_extended_style_id(
             style['id'])
