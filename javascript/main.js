@@ -7,10 +7,11 @@ function ask_for_extended_style_name(_, prompt_text, negative_prompt_text, width
 }
 
 function apply_extended_style(style_name) {
-    regexp = /\(([^)]*),([^)]*)\)$/g
+    regexp = /\(([^)]*),([^)]*),([^)]*)\)$/g
     result = regexp.exec(style_name)
     model_name = result[1]
     vae_name = result[2]
+    id = result[3]
 
     const sd_model = gradioApp().querySelector("#setting_sd_model_checkpoint" + " input")
     const vae = gradioApp().querySelector("#setting_sd_vae" + " input")

@@ -26,8 +26,9 @@ class ExtStyleRepository():
 
         model_name = style["sd_model_checkpoint"]
         vae_name = style["sd_vae"]
+        id = style["id"]
 
-        return style['name'] + f'({model_name}, {vae_name})'
+        return style['name'] + f'({model_name}, {vae_name}, {id})'
 
     def get_choices(self, styles=None):
         self.refresh()  # to avoid data rollback by F5 reload
