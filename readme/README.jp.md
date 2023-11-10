@@ -5,6 +5,7 @@
 ### 機能説明
 
 プロンプトやネガティブプロンプト、画像サイズや使用モデル、VAEの保存が可能です。
+現在、ControlNetのopenposeにも一部対応しています。
 
 ![extended_style](./static/images/extended_style.png)
 
@@ -29,6 +30,10 @@ Install from URLから、本プロジェクトのURLを入力してInstallして
 
 1. 適用したいスタイルを選択
 2. ノートアイコンをクリック
+
+### ControlNet
+
+[here](./sd-webui-controlnet/README.jp.md)
 
 ### その他
 

@@ -4,7 +4,7 @@
 
 ### Feature Description
 
-You can save prompts, negative prompts, image sizes, used models, and VAEs.
+You can save prompts, negative prompts, image sizes, used models, and VAEs. Currently, there is partial support for ControlNet's openpose as well.
 
 ![extended_style](./static/images/extended_style.png)
 
@@ -29,6 +29,10 @@ Please enter this project's URL in "Install from URL" and click Install.
 
 1. Select the style you want to restore
 2. Click the note icon
+
+### ControlNet
+
+[here](./sd-webui-controlnet/README.md)
 
 ### Other Features
 
