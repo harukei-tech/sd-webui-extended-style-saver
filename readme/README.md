@@ -30,6 +30,13 @@ Please enter this project's URL in "Install from URL" and click Install.
 1. Select the style you want to restore
 2. Click the note icon
 
+### How to Delete Prompts
+
+![apply](./static/images/delete_ext_style.png)
+
+1. Select the style you want to delete, then click garbage-bin icon
+2. Confirm that the name is the one you want to delete.
+
 ### Other Features
 
 ![others](./static/images/other_buttons.png)

@@ -30,6 +30,13 @@ Install from URLから、本プロジェクトのURLを入力してInstallして
 1. 適用したいスタイルを選択
 2. ノートアイコンをクリック
 
+### 削除方法
+
+![apply](./static/images/delete_ext_style.png)
+
+1. 削除したいスタイルを選択し、ゴミ箱アイコンをクリック
+2. スタイル名が正しいことを確認し、OKをクリック
+
 ### その他
 
 ![others](./static/images/other_buttons.png)
