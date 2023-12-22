@@ -21,3 +21,17 @@ function apply_extended_style(style_name) {
     return style_name
 }
 
+function confirm_extended_style_deletion(style_name) {
+    regexp = /(.*)\(([^)]*),([^)]*),([^)]*)\)$/g
+    result = regexp.exec(style_name)
+    ext_style_name = result[1]
+    model_name = result[2]
+    vae_name = result[3]
+    id = result[4]
+
+    if (!confirm('Are you sure you want to delete the style "' + ext_style_name + '"?')) {
+        throw ''
+    }
+
+    return id.trim()
+}

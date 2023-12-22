@@ -27,3 +27,12 @@ class CsvAccesser():
         with open(self.get_csv_path(), 'a', newline='', encoding='utf-8') as file:
             writer = csv.DictWriter(file, fieldnames=self.fieldnames)
             writer.writerow(row)
+
+    def delete_from_csv(self, id):
+        rows = self.read_csv_without_header()
+        with open(self.get_csv_path(), 'w', newline='', encoding='utf-8') as file:
+            writer = csv.DictWriter(file, fieldnames=self.fieldnames)
+            writer.writeheader()
+            for row in rows:
+                if row['id'] != id:
+                    writer.writerow(row)

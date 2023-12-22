@@ -46,6 +46,14 @@ class ExtStyleService():
             choices=choices,
             value=choices[-1]), style.get('id'))
 
+    def delete(self, id):
+        self.ext_style_repository.delete(id)
+        choices = self.get_choices()
+        return gr.update(
+            choices=choices,
+            value=''
+        )
+
     def apply_ext_style(self, style):
 
         if (shared.opts.data['sd_model_checkpoint'] != style['sd_model_checkpoint']):

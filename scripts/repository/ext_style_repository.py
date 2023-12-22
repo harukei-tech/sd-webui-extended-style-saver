@@ -47,3 +47,7 @@ class ExtStyleRepository():
     def save(self, row):
         self.csvAccesser.append_to_csv(row)
         self.refresh()
+
+    def delete(self, id):
+        self.csvAccesser.delete_from_csv(id)
+        self.refresh()

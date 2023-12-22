@@ -4,12 +4,14 @@ import modules.scripts as scripts
 from scripts.service.extended_style_service import \
     ExtStyleService
 from scripts.usecase.save_usecase import SaveUsecase
+from scripts.usecase.delete_usecase import DeleteUsecase
 from scripts.usecase.apply_usecase import ApplyUsecase
-from modules.ui import refresh_symbol, apply_style_symbol, save_style_symbol
+from modules.ui import refresh_symbol, apply_style_symbol, save_style_symbol, clear_prompt_symbol
 from modules.ui_components import ToolButton
 
 basedir = scripts.basedir()
 save_usecase = SaveUsecase(basedir)
+delete_usecase = DeleteUsecase(basedir)
 apply_usecase = ApplyUsecase(basedir)
 ext_style_service = ExtStyleService(basedir)
 
@@ -107,7 +109,7 @@ class ExtendedStyles(scripts.Script):
                     outputs=ext_style_dropdown
                 )
 
-            with gr.Accordion('Save', open=False):
+            with gr.Accordion('Save/Delete', open=False):
                 with gr.Row():
                     save_style_button = ToolButton(
                         value=save_style_symbol,
@@ -121,5 +123,18 @@ class ExtendedStyles(scripts.Script):
                         inputs=[self.dummy_component, self.pos_prompt_component, self.neg_prompt_component,
                                 self.txt2img_width_component, self.txt2img_height_component,
                                 ],
+                        outputs=ext_style_dropdown,
+                    )
+
+                    delete_style_button = ToolButton(
+                        value=clear_prompt_symbol,
+                        elem_id="extended_style_delete",
+                    )
+                    delete_style_button.click(
+                        fn=delete_usecase.delete,
+                        _js="confirm_extended_style_deletion",
+                        # Have to pass empty dummy component here, because the JavaScript and Python function have to accept
+                        # the same number of parameters, but we only know the style-name after the JavaScript prompt
+                        inputs=[ext_style_dropdown],
                         outputs=ext_style_dropdown,
                     )
