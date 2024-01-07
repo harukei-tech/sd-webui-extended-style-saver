@@ -30,9 +30,14 @@ class CsvAccesser():
 
     def delete_from_csv(self, id):
         rows = self.read_csv_without_header()
-        with open(self.get_csv_path(), 'w', newline='', encoding='utf-8') as file:
-            writer = csv.DictWriter(file, fieldnames=self.fieldnames)
+        workfilename = self.get_csv_path() + '.tmp'
+        with open(workfilename, 'w', newline='', encoding='utf-8') as workfile:
+            writer = csv.DictWriter(workfile, fieldnames=self.fieldnames)
             writer.writeheader()
             for row in rows:
+                if '' in row:
+                    del row['']
                 if row['id'] != id:
                     writer.writerow(row)
+        os.remove(self.get_csv_path())
+        os.rename(workfilename, self.get_csv_path())
