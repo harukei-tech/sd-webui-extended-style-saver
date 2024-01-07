@@ -34,5 +34,7 @@ class CsvAccesser():
             writer = csv.DictWriter(file, fieldnames=self.fieldnames)
             writer.writeheader()
             for row in rows:
+                if '' in row:
+                    del row['']
                 if row['id'] != id:
                     writer.writerow(row)
