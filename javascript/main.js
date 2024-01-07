@@ -9,10 +9,10 @@ function ask_for_extended_style_name(_, prompt_text, negative_prompt_text, width
 function apply_extended_style(style_name) {
     regexp = /(.*)\(([^)]*),([^)]*),([^)]*)\)$/g
     result = regexp.exec(style_name)
-    ext_style_name = result[1]
-    model_name = result[2]
-    vae_name = result[3]
-    id = result[4]
+    ext_style_name = result[1].trim()
+    model_name = result[2].trim()
+    vae_name = result[3].trim()
+    id = result[4].trim()
 
     const sd_model = gradioApp().querySelector("#setting_sd_model_checkpoint" + " input")
     const vae = gradioApp().querySelector("#setting_sd_vae" + " input")
@@ -25,14 +25,14 @@ function apply_extended_style(style_name) {
 function confirm_extended_style_deletion(style_name) {
     regexp = /(.*)\(([^)]*),([^)]*),([^)]*)\)$/g
     result = regexp.exec(style_name)
-    ext_style_name = result[1]
-    model_name = result[2]
-    vae_name = result[3]
-    id = result[4]
+    ext_style_name = result[1].trim()
+    model_name = result[2].trim()
+    vae_name = result[3].trim()
+    id = result[4].trim()
 
     if (!confirm('Are you sure you want to delete the style "' + ext_style_name + '"?')) {
         throw ''
     }
 
-    return id.trim()
+    return id
 }
